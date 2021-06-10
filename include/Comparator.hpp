@@ -1,3 +1,28 @@
+#ifndef _COMPARATOR_HPP_
+#define _COMPARATOR_HPP_
+
+/**
+ * @brief Functor class to count amount logic statements like comparison of elements in `if()` or `while()`
+ */
+class StatementCounter
+{
+    public:
+    inline static size_t amount_of_calls = 0;
+    inline static std::string type = "Bool statements counter";
+    bool operator()(bool statement)
+    {
+        ++amount_of_calls;
+        return statement;
+    }
+};
+
+StatementCounter _;
+
+/*
+    Just call it like `if(_(_(a == b) && (b == c)))` if you want to count all the binary statements.
+    Or, lets say you want to count all the `if()` calls, you may wrapp the statement with a single one _() 
+*/
+
 template <typename T>
 class G
 {
@@ -114,3 +139,5 @@ GE<long double> long_double_greater_or_equal;
 L<long double> long_double_less;
 LE<long double> long_double_less_or_equal;
 E<long double> long_double_equal;
+
+#endif // _COMPARATOR_HPP_

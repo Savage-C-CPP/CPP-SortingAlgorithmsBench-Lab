@@ -1,23 +1,22 @@
-from random import randint
+import itertools
+import random
 
-f15k = open('./not_sorted/15k.txt', 'w')
-f40k = open('./not_sorted/40k.txt', 'w')
-f80k = open('./not_sorted/80k.txt', 'w')
-f150k = open('./not_sorted/150k.txt', 'w')
+def random_gen(low, high):
+    while True:
+        yield random.randrange(low, high)
 
-for i in range(0, 15000):
-  f15k.write(str(randint(0, 1000000)) + '\n')
 
-for i in range(0, 40000):
-  f40k.write(str(randint(0, 1000000)) + '\n')
+def gen_n_numbers(filepath, n, unique = False):
 
-for i in range(0, 80000):
-  f80k.write(str(randint(0, 1000000)) + '\n')
+  gen = random_gen(0, 1000000)
+  items = set()
+  for x in itertools.takewhile(lambda x: len(items) < n, gen):
+      items.add(x)
 
-for i in range(0, 150000):
-  f150k.write(str(randint(0, 1000000)) + '\n')
 
-f15k.close()
-f40k.close()
-f80k.close()
-f150k.close()
+  with open(filepath, 'w') as f:
+    for item in items:
+      f.write(str(item) + '\n')
+
+
+gen_n_numbers('./not_sorted/40k_unique.txt', 40000, True)
