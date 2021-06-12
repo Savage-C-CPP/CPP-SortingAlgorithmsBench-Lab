@@ -7,10 +7,10 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> buble_sort(std::vector<T> arr, Comparator cmp)
+void buble_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
     typename std::vector<T>::iterator cur, next, last;
     last = arr.end();
     bool sorted = false;
@@ -29,5 +29,4 @@ std::vector<T> buble_sort(std::vector<T> arr, Comparator cmp)
         }
         --last;
     }
-    return arr;
 }

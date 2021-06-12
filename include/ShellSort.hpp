@@ -17,7 +17,7 @@
  * @return std::vector<T> Sorted collection
  */
 template <typename T, class Comparator>
-std::vector<T> shell_sort(std::vector<T> arr, Comparator cmp)
+void shell_sort(std::vector<T> &arr, Comparator cmp)
 {
     size_t step = arr.size() / 2;
     T buf;
@@ -35,5 +35,4 @@ std::vector<T> shell_sort(std::vector<T> arr, Comparator cmp)
         }
         step /= 2;
     }
-    return arr;
 }

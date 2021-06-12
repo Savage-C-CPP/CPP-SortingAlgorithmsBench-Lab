@@ -7,7 +7,7 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> selection_sort(std::vector<T> arr, Comparator cmp)
+void selection_sort(std::vector<T> &arr, Comparator cmp)
 {
     std::vector<T> result;
     typename std::vector<T>::iterator extremum_it;
@@ -23,5 +23,5 @@ std::vector<T> selection_sort(std::vector<T> arr, Comparator cmp)
         result.push_back(*extremum_it);
         arr.erase(extremum_it);
     }
-    return result;
+    arr = result;
 };

@@ -6,10 +6,10 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> shaker_sort(std::vector<T> arr, Comparator cmp)
+void shaker_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
     typename std::vector<T>::iterator first, cur, next, last;
     first = arr.begin();
     --first; // BUG: This causes "double free or corruption (out)" when use G<T> comparison
@@ -42,5 +42,4 @@ std::vector<T> shaker_sort(std::vector<T> arr, Comparator cmp)
         }
         first++;
     }
-    return arr;
 };

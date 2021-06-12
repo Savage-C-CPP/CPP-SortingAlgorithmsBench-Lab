@@ -7,10 +7,10 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> quick_sort(std::vector<T> arr, Comparator cmp)
+void quick_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
 
     else
     {
@@ -29,13 +29,11 @@ std::vector<T> quick_sort(std::vector<T> arr, Comparator cmp)
         less = quick_sort(less, cmp);
         greater = quick_sort(greater, cmp);
 
-        std::vector<T> result;
+        arr.clear();
         for (typename std::vector<T>::iterator it = less.begin(); it != less.end(); ++it)
-            result.push_back(*it);
-        result.push_back(pivot);
+            arr.push_back(*it);
+        arr.push_back(pivot);
         for (typename std::vector<T>::iterator it = greater.begin(); it != greater.end(); ++it)
-            result.push_back(*it);
-
-        return result;
+            arr.push_back(*it);
     }
 };

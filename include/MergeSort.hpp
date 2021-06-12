@@ -18,10 +18,10 @@ std::vector<T> merge(std::vector<T> left, std::vector<T> right);
  * @return std::vector<T> Sorted collection
  */
 template <typename T, class Comparator>
-std::vector<T> merge_sort(std::vector<T> arr, Comparator cmp)
+std::vector<T> merge_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
 
     size_t mid = arr.size() / 2;
 
@@ -35,7 +35,7 @@ std::vector<T> merge_sort(std::vector<T> arr, Comparator cmp)
     left = merge_sort(left, cmp);
     right = merge_sort(right, cmp);
 
-    return merge(left, right, cmp);
+    arr = merge(left, right, cmp);
 }
 
 /**

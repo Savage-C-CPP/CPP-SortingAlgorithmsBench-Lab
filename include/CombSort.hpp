@@ -7,10 +7,10 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> comb_sort(std::vector<T> arr, Comparator cmp)
+void comb_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
 
     size_t step = arr.size() - 1;
     float k = 1.2473309;
@@ -46,5 +46,4 @@ std::vector<T> comb_sort(std::vector<T> arr, Comparator cmp)
         }
         --last;
     }
-    return arr;
 }

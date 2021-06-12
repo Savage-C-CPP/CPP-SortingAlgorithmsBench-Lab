@@ -7,7 +7,7 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> bin_insertion_sort(std::vector<T> arr, Comparator cmp)
+void bin_insertion_sort(std::vector<T> &arr, Comparator cmp)
 {
     for (size_t i = 1; i < arr.size(); ++i)
     {
@@ -25,5 +25,4 @@ std::vector<T> bin_insertion_sort(std::vector<T> arr, Comparator cmp)
             arr[j] = arr[j - 1];
         arr[low] = buf;
     }
-    return arr;
 }

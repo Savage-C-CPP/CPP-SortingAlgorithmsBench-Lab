@@ -12,15 +12,14 @@
  * 
  * @tparam T Data type of collection
  * @tparam Comparator Function that compares two elements and returns true or false
- * @param arr Origin collection
+ * @param arr Origin collection link
  * @param cmp Comparator
- * @return std::vector<T> Sorted collection
  */
 template <typename T, class Comparator, int constanta = 3>
-std::vector<T> knuth_shell_sort(std::vector<T> arr, Comparator cmp)
+void knuth_shell_sort(std::vector<T> &arr, Comparator cmp)
 {
     if (arr.size() < 2)
-        return arr;
+        return;
 
     size_t t = log(arr.size() - 1) / log(constanta);
     size_t h = 1;
@@ -43,5 +42,4 @@ std::vector<T> knuth_shell_sort(std::vector<T> arr, Comparator cmp)
         }
         h = (h - 1) / constanta;
     }
-    return arr;
 }

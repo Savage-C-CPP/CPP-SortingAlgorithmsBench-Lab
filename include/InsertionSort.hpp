@@ -7,7 +7,7 @@
 */
 
 template <typename T, class Comparator>
-std::vector<T> insertion_sort(std::vector<T> arr, Comparator cmp)
+void insertion_sort(std::vector<T> &arr, Comparator cmp)
 {
     for (size_t i = 1; i < arr.size(); ++i)
     {
@@ -28,5 +28,4 @@ std::vector<T> insertion_sort(std::vector<T> arr, Comparator cmp)
             }
         }
     }
-    return arr;
 }

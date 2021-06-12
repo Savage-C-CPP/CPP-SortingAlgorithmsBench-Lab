@@ -8,15 +8,18 @@ class StatementCounter
 {
     public:
     inline static size_t amount_of_calls = 0;
+    size_t obj_amount_of_calls = 0;
     inline static std::string type = "Bool statements counter";
     bool operator()(bool statement)
     {
         ++amount_of_calls;
+        ++obj_amount_of_calls;
         return statement;
     }
 };
 
 StatementCounter _;
+StatementCounter __;
 
 /*
     Just call it like `if(_(_(a == b) && (b == c)))` if you want to count all the binary statements.

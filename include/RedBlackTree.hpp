@@ -16,10 +16,18 @@ class RBNode
 {
 public:
     T data;
+    inline static size_t counter = 0;
     RBNode<T> *parent;
     RBNode<T> *left;
     RBNode<T> *right;
     Color color;
+
+    RBNode()
+    {
+        parent = nullptr;
+        left = nullptr;
+        right = nullptr;
+    }
 
     RBNode(T data) : data(data)
     {
@@ -27,12 +35,11 @@ public:
         left = nullptr;
         right = nullptr;
         color = Red;
+        counter += sizeof(RBNode<T>) + sizeof(T) + sizeof(RBNode<T>) * 3 + sizeof(Color);
     }
-
-    ~RBNode()
+    bool operator==(RBNode<T> r)
     {
-        delete left;
-        delete right;
+        return (this->data == r.data && this->parent == r.parent && this->left == r.left && this->right == r.right);
     }
 };
 
@@ -46,6 +53,7 @@ protected:
 
 public:
     RBNode<T> *root;
+    inline static RBNode<T> nullnode = RBNode<T>();
 
     RedBlackTree() : root(nullptr) {};
     RedBlackTree(const RedBlackTree<T> &rvl);
@@ -53,6 +61,7 @@ public:
 
 	void insert(const T &data);
 	void inorder();
+	RBNode<T> find(T data);
 	void levelOrder();
 };
 
@@ -123,6 +132,7 @@ void RedBlackTree<T>::fixViolation(RBNode<T> *&root, RBNode<T> *&pt)
     while (
         _(pt != root)
         && _(pt->color != Black)
+        && _(pt->parent != nullptr)
         && _(pt->parent->color == Red)
         ) // BUG: Segfault
     {
@@ -224,6 +234,28 @@ void RedBlackTree<T>::inorder() { inorderHelper(root); }
 template<typename T>
 void RedBlackTree<T>::levelOrder() { levelOrderHelper(root); }
 
+template<typename T>
+RBNode<T> RedBlackTree<T>::find(T data) { return inorderFindHelper(root, data); }
+
+template <typename T>
+RBNode<T> inorderFindHelper(RBNode<T> *root, T data)
+{
+    auto *current = root;
+    while (_(__(current->data != data)))
+    {
+        if (_(__(current != nullptr)))
+        {
+            if (_(__(current->data > data)))
+                current = current->left;
+            else
+                current = current->right;
+
+            if (_(__(current == nullptr)))
+                return RedBlackTree<T>::nullnode;
+        }
+    }
+    return *current;
+}
 
 template <typename T>
 RBNode<T> *BSTInsert(RBNode<T> *root, RBNode<T> *pt)

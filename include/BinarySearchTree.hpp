@@ -10,22 +10,27 @@ class Node
 {
 public:
     T data;
+    inline static size_t counter = 0;
     Node<T> *parent;
     Node<T> *left;
     Node<T> *right;
 
-    Node(T data) : data(data)
+    Node()
     {
         parent = nullptr;
         left = nullptr;
         right = nullptr;
     }
-
-    ~Node()
+    Node(T data) : data(data)
     {
-        delete left;
-        delete right;
-        delete parent;
+        parent = nullptr;
+        left = nullptr;
+        right = nullptr;
+        counter += sizeof(Node<T>) + sizeof(T) + sizeof(Node<T>*) * 3;
+    }
+    bool operator==(Node<T> r)
+    {
+        return (this->data == r.data && this->parent == r.parent && this->left == r.left && this->right == r.right);
     }
 };
 
@@ -34,6 +39,7 @@ class BinarySearchTree
 {
 public:
     Node<T> *root;
+    inline static Node<T> nullnode = Node<T>();
 
     BinarySearchTree() : root(nullptr) {};
     BinarySearchTree(const BinarySearchTree<T> &rvl);
@@ -41,6 +47,7 @@ public:
 
 	void insert(const T &data);
 	void inorder();
+	Node<T> find(T data);
 	void levelOrder();
 };
 
@@ -87,6 +94,9 @@ void BinarySearchTree<T>::inorder() { inorderHelper(root); }
 template<typename T>
 void BinarySearchTree<T>::levelOrder() { levelOrderHelper(root); }
 
+template<typename T>
+Node<T> BinarySearchTree<T>::find(T data) { return inorderFindHelper(root, data); }
+
 // A recursive function to do inorder traversal
 template <typename T>
 void inorderHelper(Node<T> *root)
@@ -97,6 +107,27 @@ void inorderHelper(Node<T> *root)
     inorderHelper(root->left);
     std::cout << root->data << " ";
     inorderHelper(root->right);
+}
+
+// A recursive function to do inorder traversal
+template <typename T>
+Node<T> inorderFindHelper(Node<T> *root, T data)
+{
+    auto *current = root;
+    while (_(__(current->data != data)))
+    {
+        if (_(__(current != nullptr)))
+        {
+            if (_(__(current->data > data)))
+                current = current->left;
+            else
+                current = current->right;
+
+            if (_(__(current == nullptr)))
+                return BinarySearchTree<T>::nullnode;
+        }
+    }
+    return *current;
 }
 
 template <typename T>
