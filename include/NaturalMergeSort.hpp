@@ -1,79 +1,60 @@
 #include <vector>
-#include <list>
+using namespace std;
 
-/*
-    Best: O(N log N)
-    AVG: O(N log N)?
-    Worst: O(N^2)
-*/
-
-/**
- * @brief Natural Merge sort algorithm by Von Neuman. Mergeing the longest two subsequences.
- * 
- * @tparam T Data type
- * @tparam Comparator Function that compares two T elements (Less or equal / Greater or equal !). Returns true or false
- * @param arr Origin collection
- * @param cmp Comparator function
- * @return std::vector<T> Sorted collection
- */
 template <typename T, class Comparator>
-std::vector<T> natural_merge_sort(std::vector<T> arr, Comparator cmp)
+void merge_vectors(vector<T> &a, vector<T> &b, size_t left, size_t middle, size_t right, Comparator cmp)
 {
-    if (arr.size() < 2)
-        return arr;
+    int l = left;
+    int r = middle + 1;
 
-    std::list<T> tape1, tape2;
-    std::list<T> *cur_tape;
-
-    while (true)
+    for (int i = left; i <= right; i++)
     {
-        tape1.clear();
-        tape2.clear();
-        cur_tape = &tape1;
-        for (size_t i = 0; i < arr.size(); ++i)
+        if (r > right || (l <= middle && cmp(a[l], a[r])))
         {
-            if (i == arr.size() - 1)
-                cur_tape->push_back(arr[i]);
-
-            else if (!cmp(arr[i], arr[i + 1]))
-            {
-                cur_tape->push_back(arr[i]);
-                cur_tape = cur_tape == &tape1 ? &tape2 : &tape1;
-            }
-            else
-                cur_tape->push_back(arr[i]);
+            b[i] = a[l++];
         }
-        arr.clear();
-
-        // Sorted if one of tapes is empty
-        if (tape1.empty())
+        else if (l > middle || (r <= right && cmp(a[r], a[l])))
         {
-            arr = std::vector<T>{tape2.begin(), tape2.end()};
-            break;
+            b[i] = a[r++];
         }
-        else if (tape2.empty())
-        {
-            arr = std::vector<T>{tape1.begin(), tape1.end()};
-            break;
-        }
-
-        while (!tape1.empty() && !tape2.empty())
-        {
-            if (cmp(tape1.front(), tape2.front()))
-            {
-                arr.push_back(tape1.front());
-                tape1.pop_front();
-            }
-            else
-            {
-                arr.push_back(tape2.front());
-                tape2.pop_front();
-            }
-        }
-        if (tape1.size() == 0 && tape2.size() != 0)
-            arr.insert(arr.end(), tape2.begin(), tape2.end());
-        else if (tape2.size() == 0 && tape1.size() != 0)
-            arr.insert(arr.end(), tape1.begin(), tape1.end());
     }
-    return arr;
+
+    for (int i = left; i <= right; i++)
+    {
+        a[i] = b[i];
+    }
+}
+template <typename T, class Comparator>
+void natural_merge_sort(vector<T> &a, Comparator cmp)
+{
+    vector<T> b(a.size(), 0);
+    int left = 0;
+    int right = a.size() - 1;
+    bool sorted = false;
+    int l = 0;
+    int r = right;
+
+    do
+    {
+        sorted = true;
+        left = 0;
+
+        while (left < right)
+        {
+            l = left;
+            while (l < right && cmp(a[l], a[l + 1]))
+                l++;
+
+            r = l + 1;
+            while (r == right - 1 || r < right && cmp(a[r], a[r + 1]))
+                r++;
+
+            if (r <= right)
+            {
+                merge_vectors(a, b, left, l, r, cmp);
+                sorted = false;
+            }
+            left = r + 1;
+        }
+    } while (!sorted);
 }
