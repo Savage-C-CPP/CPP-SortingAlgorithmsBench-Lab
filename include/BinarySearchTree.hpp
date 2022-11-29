@@ -20,6 +20,7 @@ public:
         parent = nullptr;
         left = nullptr;
         right = nullptr;
+        counter += sizeof(Node<T>) + sizeof(T) + sizeof(Node<T>*) * 3;
     }
     Node(T data) : data(data)
     {

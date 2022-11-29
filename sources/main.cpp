@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     ofstream of40k(sorted_data + "40k.txt");
     ofstream of40kA(sorted_data + "40kA.txt");
     ofstream of40kD(sorted_data + "40kD.txt");
-    vector<DT> v40k(vtestnums.begin(), vtestnums.begin() + 15000);
+    vector<DT> v40k(vtestnums.begin(), vtestnums.begin() + 40000);
     vector<DT> v40kA(v40k);
     sort(v40kA.begin(), v40kA.end());
     vector<DT> v40kD(v40kA);
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
     {
     // Сортируем последовательности по убыванию. исходные последовательности могут быть неупорядоченны, по возрастанию или по убыванию
     case Sorts::BinaryInsertion: // Доп память sizeof(DT) + sizeof(size_t) * 4
-        additional_mem = sizeof(DT) + sizeof(size_t) * 4;
+        additional_mem = sizeof(DT) + sizeof(size_t) * 5;
         BenchmarkAlgorithm(*of, *v, bin_insertion_sort<DT, G<DT>>, G<DT>(), "Бинартыми вставками. Неупорядоченный", additional_mem);
         BenchmarkAlgorithm(*ofA, *vA, bin_insertion_sort<DT, G<DT>>, G<DT>(), "Бинарными вставками. По возрастанию", additional_mem);
         BenchmarkAlgorithm(*ofD, *vD, bin_insertion_sort<DT, G<DT>>, G<DT>(), "Бинарными вставками. По убыванию", additional_mem);
@@ -267,9 +267,8 @@ void BenchmarkBST(ofstream &of, vector<T> &v)
     auto t3 = chrono::high_resolution_clock::now();
 
     double search_comps = 0;
-    for (size_t i = 0; i < 100; ++i)
+    for (const auto key : keys)
     {
-        auto key = keys[i];
         if (tree.find(key) == BinarySearchTree<T>::nullnode)
             cout << "Ключ " << key << " не найден. Сравнений: " << __.obj_amount_of_calls << '\n';
         else
@@ -309,8 +308,7 @@ void BenchmarkBST(ofstream &of, vector<T> &v)
     size_t width = 24;
 
     ss << left << string(width * 2 + 4, '_') << "\n";
-    ss << setw(width / 2) << "|" << setw(width + width / 2 + 3) << "Бинарное дерево поиска"
-       << "\n";
+    ss << setw(width / 2) << "|" << setw(width + width / 2 + 3) << "Бинарное дерево поиска" << "\n";
     ss << left << string(width * 2 + 4, '-') << "\n";
 
     ss << left << setw(width) << "| Элементов              " << setfill(' ') << "| " << setw(width) << v.size() << "|\n";

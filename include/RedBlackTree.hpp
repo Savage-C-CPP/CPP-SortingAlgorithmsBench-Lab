@@ -47,24 +47,23 @@ template <typename T>
 class RedBlackTree
 {
 protected:
-	void rotateLeft(RBNode<T> *&, RBNode<T> *&);
-	void rotateRight(RBNode<T> *&, RBNode<T> *&);
-	void fixViolation(RBNode<T> *&, RBNode<T> *&);
+    void rotateLeft(RBNode<T> *&, RBNode<T> *&);
+    void rotateRight(RBNode<T> *&, RBNode<T> *&);
+    void fixViolation(RBNode<T> *&, RBNode<T> *&);
 
 public:
     RBNode<T> *root;
     inline static RBNode<T> nullnode = RBNode<T>();
 
-    RedBlackTree() : root(nullptr) {};
+    RedBlackTree() : root(nullptr){};
     RedBlackTree(const RedBlackTree<T> &rvl);
     ~RedBlackTree();
 
-	void insert(const T &data);
-	void inorder();
-	RBNode<T> find(T data);
-	void levelOrder();
+    void insert(const T &data);
+    void inorder();
+    RBNode<T> find(T data);
+    void levelOrder();
 };
-
 template <typename T>
 RedBlackTree<T>::~RedBlackTree()
 {
@@ -130,11 +129,7 @@ void RedBlackTree<T>::fixViolation(RBNode<T> *&root, RBNode<T> *&pt)
     RBNode<T> *grand_parent_pt = nullptr;
 
     while (
-        _(pt != root)
-        && _(pt->color != Black)
-        && _(pt->parent != nullptr)
-        && _(pt->parent->color == Red)
-        ) // BUG: Segfault
+        _(pt != root) && _(pt->color != Black) && _(pt->parent != nullptr) && _(pt->parent->color == Red)) // BUG: Segfault
     {
         parent_pt = pt->parent;
         grand_parent_pt = pt->parent->parent;
@@ -217,7 +212,7 @@ void RedBlackTree<T>::fixViolation(RBNode<T> *&root, RBNode<T> *&pt)
 }
 
 // Function to insert a new node with given data
-template<typename T>
+template <typename T>
 void RedBlackTree<T>::insert(const T &data)
 {
     RBNode<T> *pt = new RBNode<T>(data);
@@ -228,13 +223,13 @@ void RedBlackTree<T>::insert(const T &data)
 }
 
 // Function to do inorder and level order traversals
-template<typename T>
+template <typename T>
 void RedBlackTree<T>::inorder() { inorderHelper(root); }
 
-template<typename T>
+template <typename T>
 void RedBlackTree<T>::levelOrder() { levelOrderHelper(root); }
 
-template<typename T>
+template <typename T>
 RBNode<T> RedBlackTree<T>::find(T data) { return inorderFindHelper(root, data); }
 
 template <typename T>
